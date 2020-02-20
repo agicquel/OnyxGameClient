@@ -36,7 +36,13 @@ class GameClient:
                 print("L'adervsaire à joué : ", message.split(" ")[1])
             if message[1:] == "READY":
                 self.turn = True
-
+            if message[1:] == "WIN":
+                print("Vous avez gagné !")
+            if message[1:] == "LOOSE":
+                print("Vous avez perdu !")
+            if message[1:] == "END":
+                print("Partie terminée.")
+                self.ws.close()
         # ERROR
         if message[0] == '!':
             print("Erreur : ", message[1:])
@@ -44,6 +50,7 @@ class GameClient:
         # INFO
         if message[0] == '#':
             if(message[1:].split(" ")[0] == "AVAILABLE"):
+                self.available.clear()
                 self.available.extend(message[1:].split(" ")[1:])
                 self.play()
                 return
@@ -83,5 +90,5 @@ class GameClient:
         #self.ws.send(coord_input)
 
 
-client = GameClient("ws://localhost:8989/room/toto")
+client = GameClient("ws://localhost:8989/room/tototo")
 client.run()
